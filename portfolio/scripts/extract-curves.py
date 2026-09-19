@@ -245,8 +245,13 @@ def main(argv=None) -> None:
             continue
 
         compact = []
+        seen_names: dict[str, int] = {}
         for r in ordered:
-            entry = {"name": display_name(r["name"]), "series": {}}
+            name = display_name(r["name"])
+            seen_names[name] = seen_names.get(name, 0) + 1
+            if seen_names[name] > 1:
+                name = f"{name} · {seen_names[name]}"
+            entry = {"name": name, "series": {}}
             for key, rows in r["series"].items():
                 entry["series"][key] = [[int(s), round(v, 2)] for s, v in rows]
             compact.append(entry)

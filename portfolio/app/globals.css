@@ -576,6 +576,7 @@ a {
   letter-spacing: 0.12em;
   color: var(--ink-soft);
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .header-status[href] {

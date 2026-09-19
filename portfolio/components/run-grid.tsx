@@ -15,10 +15,10 @@ function finalValue(points: CurvePoint[]): number | null {
 export default function RunGrid({ runs, accent }: RunGridProps) {
   return (
     <div className="run-grid">
-      {runs.map((run) => {
+      {runs.map((run, index) => {
         const last = finalValue(run.best);
         return (
-          <figure className="run-card" key={run.name}>
+          <figure className="run-card" key={`${run.name}-${index}`}>
             <figcaption className="run-card-head">
               <span className="run-card-name">{run.name}</span>
               <span className="run-card-value">

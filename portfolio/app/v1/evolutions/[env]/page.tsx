@@ -85,8 +85,8 @@ export default async function EnvDetailPage({ params }: EnvPageProps) {
           <h2 className="section-heading">Learning progress</h2>
           {showPerRun ? (
             <div className="curve-grid">
-              {curveRuns.map((run) => (
-                <div className="panel" key={run.name}>
+              {curveRuns.map((run, index) => (
+                <div className="panel" key={`${run.name}-${index}`}>
                   <p className="recording-meta">{run.name}</p>
                   <LearningCurve
                     name={run.name}
