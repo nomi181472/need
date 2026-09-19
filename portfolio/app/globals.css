@@ -484,12 +484,27 @@ a {
   top: 0;
   z-index: 50;
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
   padding: 0.8rem 1.5rem;
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--paper) 86%, transparent);
   backdrop-filter: blur(10px);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.root-nav {
+  margin-left: auto;
+}
+
+.root-nav a {
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .wordmark {
@@ -518,10 +533,16 @@ a {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-left: auto;
 }
 
-.site-header nav a {
+.sub-nav {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.site-header nav a,
+.sub-nav a {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
@@ -533,12 +554,14 @@ a {
   transition: color 160ms ease, background 160ms ease;
 }
 
-.site-header nav a:hover {
+.site-header nav a:hover,
+.sub-nav a:hover {
   color: var(--ink);
   background: var(--paper-2);
 }
 
-.site-header nav a.nav-active {
+.site-header nav a.nav-active,
+.sub-nav a.nav-active {
   color: var(--ink);
   background: var(--paper-2);
   box-shadow: inset 0 -2px 0 var(--signal);
@@ -553,6 +576,15 @@ a {
   letter-spacing: 0.12em;
   color: var(--ink-soft);
   white-space: nowrap;
+}
+
+.header-status[href] {
+  text-decoration: none;
+  color: var(--signal);
+}
+
+.header-status[href]:hover {
+  text-decoration: underline;
 }
 
 .header-status i {
@@ -849,6 +881,11 @@ label.muted {
   gap: 0.75rem;
 }
 
+.dialog-video {
+  margin: 0 auto;
+  max-width: min(100%, 42rem);
+}
+
 .icon-button {
   background: none;
   border: 1px solid transparent;
@@ -1001,6 +1038,20 @@ label.muted {
   text-align: center;
 }
 
+.video-error a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
 @media (max-width: 56rem) {
   .env-index-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1025,10 +1076,12 @@ label.muted {
   .wordmark span {
     display: none;
   }
-  .site-header nav {
+  .site-header nav,
+  .sub-nav {
     gap: 0.15rem;
   }
-  .site-header nav a {
+  .site-header nav a,
+  .sub-nav a {
     padding: 0.4rem 0.5rem;
     font-size: 0.7rem;
   }
@@ -1043,16 +1096,14 @@ label.muted {
     grid-template-columns: 1fr;
   }
   .site-header {
-    flex-wrap: wrap;
     padding: 0.7rem 1rem;
   }
-  .site-header nav {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    margin-left: 0;
-    border-top: 1px solid var(--line);
-    padding-top: 0.5rem;
+  .header-top {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .sub-nav {
+    flex-wrap: wrap;
   }
   .panel-columns,
   .media-collection {
@@ -1075,5 +1126,68 @@ label.muted {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* Learning-curve panels and small-multiples run grid */
+
+.curve-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.curve-grid .panel {
+  min-width: 0;
+}
+
+.run-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.7rem;
+}
+
+.run-card {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.625rem;
+  background: color-mix(in srgb, var(--background) 70%, transparent);
+  padding: 0.6rem 0.7rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.run-card:hover {
+  border-color: var(--line-2);
+}
+
+.run-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.run-card-name {
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.run-card-value {
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .curve-grid {
+    grid-template-columns: 1fr;
+  }
+  .run-grid {
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
   }
 }

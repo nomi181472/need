@@ -104,6 +104,7 @@ function LinkedVideo({ recording }: { recording: Recording | null }) {
         <div className="empty-state">
           <p className="stat-label">Playback failed</p>
           <p className="muted">The browser refused to start this video. Try the native controls.</p>
+          <a className="text-link" href={mediaUrl(recording)} target="_blank" rel="noreferrer">Download recording</a>
         </div>
       ) : null}
       <video

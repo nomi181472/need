@@ -68,12 +68,14 @@ function DialogVideo({ recording }: { recording: Recording }) {
       <div className="empty-state">
         <p className="stat-label">Playback failed</p>
         <p className="muted">The browser could not play this recording. It may still exist on the server; try again later.</p>
+        <a className="text-link" href={mediaUrl(recording)} target="_blank" rel="noreferrer">Download recording</a>
       </div>
     );
   }
 
   return (
     <video
+      className="dialog-video"
       src={mediaUrl(recording)}
       controls
       muted

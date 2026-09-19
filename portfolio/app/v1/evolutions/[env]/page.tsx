@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { environmentsWithDisplay, getEnvironmentDisplay, mediaUrl, recordings, featuredRecording } from "@/lib/data";
+import { bestRunCoverage, envCurveRuns } from "@/lib/curves";
 import FitnessChart from "@/components/fitness-chart";
+import LearningCurve from "@/components/learning-curve";
+import CoverageCurve from "@/components/coverage-curve";
+import RunGrid from "@/components/run-grid";
 
 interface EnvPageProps {
   params: Promise<{ env: string }>;
@@ -37,12 +41,16 @@ export default async function EnvDetailPage({ params }: EnvPageProps) {
   const ensembles = pool.filter((recording) => recording.kind === "ensemble");
   const episodes = pool.filter((recording) => recording.kind === "episode");
 
+  const curveRuns = envCurveRuns(env);
+  const showPerRun = curveRuns.length > 0 && curveRuns.length <= 8;
+  const coverageRun = bestRunCoverage(env);
+
   return (
     <main className="page-shell">
       <nav className="breadcrumbs" aria-label="Breadcrumb">
-        <Link className="text-link" href="/">Home</Link>
+        <Link className="text-link" href="/v1">Home</Link>
         <span aria-hidden="true">/</span>
-        <Link className="text-link" href="/gallery">Archive</Link>
+        <Link className="text-link" href="/v1/gallery">Archive</Link>
         <span aria-hidden="true">/</span>
         <span>{display.name}</span>
       </nav>
@@ -71,6 +79,56 @@ export default async function EnvDetailPage({ params }: EnvPageProps) {
           <p className="stat-value">{ensembles.length}</p>
         </div>
       </section>
+
+      {curveRuns.length > 0 ? (
+        <section className="panel" aria-label="Learning curves from logged runs">
+          <h2 className="section-heading">Learning progress</h2>
+          {showPerRun ? (
+            <div className="curve-grid">
+              {curveRuns.map((run) => (
+                <div className="panel" key={run.name}>
+                  <p className="recording-meta">{run.name}</p>
+                  <LearningCurve
+                    name={run.name}
+                    series={run.series}
+                    accent={display.accent}
+                    height={220}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <RunGrid
+                runs={curveRuns.map((run) => ({
+                  name: run.name,
+                  best: run.series.best_reward ?? [],
+                }))}
+                accent={display.accent}
+              />
+              <p className="muted" style={{ marginTop: 12 }}>
+                Every logged run as its own mini-curve, best reward per generation; the number
+                shown is that run&apos;s final best.
+              </p>
+            </>
+          )}
+          {coverageRun && coverageRun.series.coverage ? (
+            <>
+              <div style={{ height: "0.75rem" }} aria-hidden="true" />
+              <CoverageCurve
+                name={coverageRun.name}
+                points={coverageRun.series.coverage}
+                accent={display.accent}
+                height={200}
+              />
+              <p className="muted" style={{ marginTop: 8 }}>
+                Behavior-map coverage for the best run: the share of the novelty descriptor grid
+                reached as evolution proceeds. 100% = the entire map explored.
+              </p>
+            </>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="panel" aria-label="Training fitness over generations">
         <h2 className="section-heading">Fitness across generations</h2>

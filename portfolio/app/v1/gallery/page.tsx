@@ -15,7 +15,7 @@ export default function GalleryPage() {
         <p className="eyebrow">Field notes / Recording archive</p>
         <h1>Evolution, on record.</h1>
         <p className="muted">{recordings.length} recordings. Different bodies, different experiments. Inspect the movement, not just the number.</p>
-        <p className="muted">Filename fitness is a mean training value, not the return of the recorded episode. <Link className="text-link" href="/methodology">Read the methodology</Link></p>
+        <p className="muted">Filename fitness is a mean training value, not the return of the recorded episode. <Link className="text-link" href="/v1/methodology">Read the methodology</Link></p>
       </header>
       <Archive />
     </main>

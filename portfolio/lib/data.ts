@@ -31,13 +31,18 @@ export const environments: EnvironmentEntry[] = manifest.environments;
 export const totalBytes: number = manifest.totalBytes;
 
 export const RESEARCH = {
-  title: "Master's thesis",
+  shortTitle: "NEED",
+  title: "NeuroEvolution for Effective Decision",
   aim: "Learn to act without backpropagation",
-  seasonLabel: "2024 → July 2025",
+  author: "Noman Ali",
+  supervisor: "Prof. Dr. Atif Tahir",
+  degree: "MSc Data Science — FAST-NUCES",
+  landmark: "Thesis defended · 17 May 2025",
+  seasonLabel: "2024 → May 2025",
   startYear: 2024,
   seasonStart: "1 Jan 2025",
-  seasonEnd: "31 Jul 2025",
-  seasonDays: 212,
+  seasonEnd: "17 May 2025",
+  seasonDays: 137,
   archiveStamp: "May 2025",
 } as const;
 
@@ -45,8 +50,10 @@ export function seasonDayCount(): number {
   return RESEARCH.seasonDays;
 }
 
+export const MEDIA_BASE_URL = "https://raw.githubusercontent.com/nomi181472/need/main/v1";
+
 export function mediaUrl(recording: Recording): string {
-  return `/api/media/${recording.path.split("/").map(encodeURIComponent).join("/")}`;
+  return `${MEDIA_BASE_URL}/${recording.path.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export function featuredRecording(environment: string): Recording | null {

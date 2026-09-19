@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { RESEARCH, environmentsWithDisplay, totalBytes } from "@/lib/data";
+import { GITHUB_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Methodology",
-  description: "How a master's thesis evolved neural controllers without backpropagation, and what the numbers do and do not mean.",
+  description: "How the NEED framework — a master's final-year project — evolved neural controllers without backpropagation, and what the numbers do and do not mean.",
 };
 
 const PIPELINE = [
@@ -13,19 +14,19 @@ const PIPELINE = [
   },
   {
     step: "Evaluation",
-    body: "Every candidate is rolled out in a Gymnasium environment; fitness is the mean episode reward across repeats.",
+    body: "Every candidate is rolled out in a Gymnasium environment; fitness is the mean episode reward across repeats. Episode length ramps through curriculum learning, and auxiliary rewards give directional signal without a single gradient step.",
   },
   {
     step: "Selection",
-    body: "The current trainer ranks parents and elites by 70% normalized fitness and 30% normalized novelty. Other experiment scripts expose different operators and parameters, so this is not a claim about every archived run.",
+    body: "The heart of NEED is hybrid selection: novelty plus a greedy, median-gated look at past fitness, so being different earns reproduction rights alongside being good. Other experiment scripts expose different operators and parameters, so this is not a claim about every archived run.",
   },
   {
     step: "Variation",
-    body: "The current training loop uses uniform crossover and polynomial mutation of weights and biases. Each generation, eligible elite clones undergo weight-level connectivity restructuring: pruning and regrowing connections without changing layer sizes. This is intended to counter stagnation, not guaranteed to improve fitness.",
+    body: "Uniform crossover and polynomial mutation vary weights and biases. Each generation, elite clones undergo connectivity restructuring — neuron relocation, pruning, and module preservation — with safeguards so the network backbone is not lost.",
   },
   {
     step: "Sweeping",
-    body: "Before the main runs, an operator grid searched mutation types against crossover schemes on CartPole and Swimmer. The winning operators informed the training loop used for the environments archived on this site.",
+    body: "Before the main runs, an operator grid searched mutation types against crossover schemes on CartPole. The winning pairing — polynomial mutation with uniform crossover — informed the training loop used for the environments archived on this site.",
   },
   {
     step: "Archive",
@@ -48,7 +49,7 @@ const CAVEATS = [
   },
   {
     title: "Dates reflect the archive, not all of the research",
-    body: `This is master's thesis research aiming to improve learning without backpropagation. The research ran ${RESEARCH.startYear} into July 2025 (${RESEARCH.seasonDays} days counted 1 Jan – 31 Jul 2025). The recordings archived here carry ${RESEARCH.archiveStamp} filename stamps; earlier sweep and log evidence is not fully represented on this site.`,
+    body: `This is master's final-year project research aiming to improve learning without backpropagation, presented as the NEED framework. The research ran ${RESEARCH.startYear} into ${RESEARCH.seasonEnd} (${RESEARCH.seasonDays} days counted ${RESEARCH.seasonStart} – ${RESEARCH.seasonEnd}). The recordings archived here carry ${RESEARCH.archiveStamp} filename stamps; earlier sweep and log evidence is not fully represented on this site.`,
   },
   {
     title: "Archives are not one continuous curve",
@@ -63,10 +64,10 @@ export default function MethodologyPage() {
         <p className="eyebrow">How it works / Methodology</p>
         <h1>From genomes to video.</h1>
         <p className="muted">
-          This is the method behind my {RESEARCH.title.toLowerCase()}: evolving neural
+          This is the method behind my master&apos;s FYP, the NEED framework: evolving neural
           controllers for Gymnasium agents, aim — improve learning without backpropagation.
-          Research ran {RESEARCH.startYear} into July 2025, {RESEARCH.seasonDays} days counted
-          from {RESEARCH.seasonStart} to {RESEARCH.seasonEnd}. Evolution optimizes policy
+          Research ran {RESEARCH.seasonLabel}, {RESEARCH.seasonDays} days counted from{" "}
+          {RESEARCH.seasonStart} to {RESEARCH.seasonEnd}. Evolution optimizes policy
           weights, and the best candidates are periodically recorded. The overview below
           describes the current Python sources, not a verified configuration history for every
           clip. The manifest indexes {environmentsWithDisplay().length} environments and{" "}
@@ -98,8 +99,19 @@ export default function MethodologyPage() {
         </div>
       </section>
 
+      <section aria-label="Thesis">
+        <h2 className="section-heading">The project</h2>
+        <p className="muted">
+          A master&apos;s final year project (FYP) written by <strong>{RESEARCH.author}</strong>,
+          supervised by {RESEARCH.supervisor}, for the {RESEARCH.degree}. Defended{" "}
+          {RESEARCH.seasonEnd} — the front matter, framework, sources, and tfevents logs all live
+          with this project under <code className="font-mono">v1/</code> and on{" "}
+          <a className="text-link" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub ↗</a>.
+        </p>
+      </section>
+
       <p className="muted">
-        Numbers on this site are read directly from filenames and the manifest. No statistics are invented. <Link className="text-link" href="/gallery">Browse the archive</Link> or <Link className="text-link" href="/compare">compare two recordings</Link>.
+        Numbers on this site are read directly from filenames and the manifest. No statistics are invented. <Link className="text-link" href="/v1/gallery">Browse the archive</Link> or <Link className="text-link" href="/v1/compare">compare two recordings</Link>.
       </p>
     </main>
   );

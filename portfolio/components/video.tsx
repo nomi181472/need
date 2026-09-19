@@ -26,7 +26,7 @@ export default function Video({ recording, autoPlay = false, controls = false, c
   return (
     <div className={`video-wrap ${className}`}>
       <video ref={ref} src={visible ? mediaUrl(recording) : undefined} muted loop playsInline controls={controls} preload="metadata" onLoadedData={() => { if (autoPlay && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) ref.current?.play().catch(() => {}); }} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => setFailed(true)} aria-label={`${recording.environment} recorded policy demonstration`} />
-      {failed && <p className="video-error">Recording unavailable. Please try again later.</p>}
+      {failed && <div className="video-error">Recording unavailable. Please try again later. <a className="text-link" href={mediaUrl(recording)} target="_blank" rel="noreferrer">Download recording</a></div>}
       {autoPlay && !failed && <button className="video-toggle" aria-label={playing ? "Pause preview" : "Play preview"} onClick={() => { const video = ref.current; if (video?.paused) video.play().catch(() => setFailed(true)); else video?.pause(); }}>{playing ? "Ⅱ" : "▷"}<span>{playing ? "PAUSE" : "PLAY"}</span></button>}
     </div>
   );
