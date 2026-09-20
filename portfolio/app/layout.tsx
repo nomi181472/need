@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@fontsource/space-grotesk/400.css";
 import "@fontsource/space-grotesk/500.css";
 import "@fontsource/space-grotesk/600.css";
@@ -8,6 +8,14 @@ import Navigation from "@/components/navigation";
 import Link from "next/link";
 import { FULL_LABEL, GITHUB_URL } from "@/lib/site";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0e0c" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: { default: `NEED — NeuroEvolution for Effective Decision · ${FULL_LABEL}`, template: "%s | NEED" },
